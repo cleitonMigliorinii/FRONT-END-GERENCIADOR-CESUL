@@ -1,23 +1,21 @@
 import { Box, Button, ButtonGroup, Flex, Heading, List, ListItem, Text, Tr, useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Ies } from "../../models/Ies";
-import { deletarIes, listarTodasIes } from "../../services/api";
-import TurmaForm from "./modal/TurmaForm";
-
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import { Turma } from "../../models/Turma";
+import { deletarTurma, listarTodasTurma } from "../../services/apiTurma";
 
 const TurmaInterface: React.FC = () => {
 
-    const [iesList, setIesList] = useState<Ies[]>([])
-    const [iesAtual, setIesAtual] = useState<Ies | null>(null)
+    const [turmaList, setTurmaList] = useState<Turma[]>([])
+    const [turmaAtual, setTurmaAtual] = useState<Turma | null>(null)
     const {isOpen, onOpen, onClose} = useDisclosure();
 
 
     useEffect(() =>{
 
         const fetchData = async () => {
-            const response = await listarTodasIes();
-            setIesList(response.data)
+            const response = await listarTodasTurma();
+            setTurmaList(response.data)
         }
 
         fetchData();
@@ -26,7 +24,7 @@ const TurmaInterface: React.FC = () => {
 
 
     const handleAdd = () =>{
-        setIesAtual(null)
+        setTurmaAtual(null)
         onOpen()
     }
 
@@ -34,24 +32,24 @@ const TurmaInterface: React.FC = () => {
         
         try {
 
-            await deletarIes(codigo)
-            setIesList(iesList.filter(ies => ies.codigo != codigo))
+            await deletarTurma(codigo)
+            setTurmaList(turmaList.filter(turma => turma.codigo != codigo))
 
             alert("Excluido com sucesso !")
 
         } catch (error) {
-            alert("IES Possui ligação com outro tabela, não pode excluir !")
+            alert("Turma Possui ligação com outro tabela, não pode excluir !")
         }
         
     }
 
     const handleCloseModal=()=>{
         onClose()
-        setIesAtual(null)
+        setTurmaAtual(null)
     }
 
-    const handleEdit = (ies : Ies) =>{
-        setIesAtual(ies)
+    const handleEdit = (turma : Turma) =>{
+        setTurmaAtual(turma)
         onOpen()
     }
 
@@ -60,7 +58,7 @@ const TurmaInterface: React.FC = () => {
 
             <Flex justifyContent={"space-between"}>
                 <Heading mb={5}>
-                    Tela IES
+                    Tela Turma
                 </Heading>
                 <Button mb={5} colorScheme="blue"
                 onClick={handleAdd}
@@ -70,29 +68,29 @@ const TurmaInterface: React.FC = () => {
                 </Button>
             </Flex>
 
-            { isOpen && <IesForm ies={iesAtual} onClose={handleCloseModal} />}
+            { isOpen && <TurmaForm ies={turmaAtual} onClose={handleCloseModal} />}
 
             <List spacing={3}>
-                { iesList.map(ies => (
-                    <ListItem key={ies.codigo} p={5} shadow='md' borderWidth='1px' borderRadius="md" 
+                { turmaList.map(turma => (
+                    <ListItem key={turma.codigo} p={5} shadow='md' borderWidth='1px' borderRadius="md" 
                             as={Flex} justifyContent='space-between'>
 
                          <Box w={'40%'}>      
-                            <Text fontSize="xl">{ies.nome}</Text>
-                            <Text>CNPJ : {ies.cnpj}</Text>
+                            <Text fontSize="xl">{turma.nome}</Text>
+                            <Text>Codigo : {turma.codigo}</Text>
                         </Box> 
 
                         <Box>
                             <Text fontSize="xl">Data Cadastro </Text>
-                            <Text>{ies.dataCriacao.toLocaleString()}</Text>
+                            <Text>{turma.dataCriacao.toLocaleString()}</Text>
                         </Box>
                         
                         <ButtonGroup>
                             <Button colorScheme="blue"  mr={2} leftIcon={<EditIcon/>}
-                                onClick={() => handleEdit(ies)}>Alterar</Button>
+                                onClick={() => handleEdit(turma)}>Alterar</Button>
                                 
                             <Button colorScheme="red"  leftIcon={<DeleteIcon/>}
-                            onClick={() =>  handleDelete(ies.codigo)}>Deletar</Button>
+                            onClick={() =>  handleDelete(turma.codigo)}>Deletar</Button>
                         </ButtonGroup>
                     </ListItem>
                 ))}
@@ -104,4 +102,4 @@ const TurmaInterface: React.FC = () => {
     
 }
 
-export default IesInterface;
+export default TurmaInterface;
