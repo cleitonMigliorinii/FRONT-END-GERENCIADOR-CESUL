@@ -3,6 +3,7 @@ import './App.css'
 import IesInterface from './screens/ies'
 import { Flex } from '@chakra-ui/react'
 import Header from './components/Header'
+import TurmaInterface from './screens/turma'
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
 
            <Routes>
               <Route path='/ies' element={<IesInterface/>}/>
-              <Route path='turma' element/>
+              <Route path='/turma' element={<TurmaInterface/>}/>
            </Routes>
 
       </Flex>
