@@ -6,3 +6,4 @@ export interface Ies{
     cnpj: string;
 
 }
+
