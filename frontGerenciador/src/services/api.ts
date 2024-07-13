@@ -3,7 +3,7 @@ import { Ies } from "../models/Ies";
 import { Disciplina } from "../models/disciplina";
 
 const api = axios.create({
-    baseURL: 'http://192.168.30.105:3333'
+    baseURL: 'http://localhost:3333'
 })
 
 export const listarTodasIes = async () => {
@@ -43,4 +43,6 @@ export const alterarDisciplina = async (codigo: string, data: Omit<Disciplina, '
 export const deletarDisciplina = async (codigo: string) => {
     return await api.delete(`/deletarDisciplina/${codigo}`);
 }
+
+
 

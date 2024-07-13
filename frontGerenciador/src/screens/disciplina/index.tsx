@@ -1,7 +1,6 @@
 import { Box, Button, ButtonGroup, Flex, Heading, List, ListItem, Text, Tr, useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { deletarDisciplina, listarTodasDisciplinas } from "../../services/api";
-
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import DisciplinaForm from "./modal/DisciplinaForm";
 import { Disciplina } from "../../models/disciplina";
@@ -18,6 +17,8 @@ const DisciplinaInterface: React.FC = () => {
         const fetchData = async () => {
             const response = await listarTodasDisciplinas();
             setDisciplinaList(response.data)
+
+            console.log(response.data)
         }
 
         fetchData();
