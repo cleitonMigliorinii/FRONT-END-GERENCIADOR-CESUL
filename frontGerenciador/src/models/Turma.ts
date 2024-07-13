@@ -9,6 +9,5 @@ export interface Turma{
     dataFinalPeriodo: Date;
     ies?: Ies;
     iesCodigo: string;
-    usuario: string;
 }
     

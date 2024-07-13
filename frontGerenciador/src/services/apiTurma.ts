@@ -7,7 +7,7 @@ const api = axios.create({
 })
 
 export const listarTodasTurma = async () => {
-    return await api.get<Turma[]>('/listarTodasTurmas');
+    return await api.get<Turma[]>('/buscarTurma');
 }
 
 export const salvarTurma = async (data : Omit<Turma, 'codigo'>) => {
