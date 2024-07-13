@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { Turma } from "../../models/Turma";
 import { deletarTurma, listarTodasTurma } from "../../services/apiTurma";
+import TurmaForm from "./modal/TurmaForm";
 
 const TurmaInterface: React.FC = () => {
 
@@ -68,7 +69,7 @@ const TurmaInterface: React.FC = () => {
                 </Button>
             </Flex>
 
-            { isOpen && <TurmaForm ies={turmaAtual} onClose={handleCloseModal} />}
+            { isOpen && <TurmaForm turma={turmaAtual} onClose={handleCloseModal} />}
 
             <List spacing={3}>
                 { turmaList.map(turma => (
