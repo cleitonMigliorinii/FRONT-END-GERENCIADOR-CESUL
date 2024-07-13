@@ -3,6 +3,7 @@ import './App.css'
 import IesInterface from './screens/ies'
 import { Flex } from '@chakra-ui/react'
 import Header from './components/Header'
+import DisciplinaInterface from './screens/disciplina'
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
 
            <Routes>
               <Route path='/ies' element={<IesInterface/>}/>
+              <Route path='/disciplina' element={<DisciplinaInterface/>}/>
            </Routes>
 
       </Flex>

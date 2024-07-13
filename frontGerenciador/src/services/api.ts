@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Ies } from "../models/Ies";
+import { Disciplina } from "../models/disciplina";
 
 const api = axios.create({
     baseURL: 'http://192.168.30.105:3333'
@@ -24,3 +25,22 @@ export const deletarIes = async (codigo: string) => {
 export const buscarIesCnpj = async (cnpj: string) => {
     return await api.get<Ies>(`/buscarIesCnpj/${cnpj}`)
 }
+
+
+
+export const listarTodasDisciplinas = async () => {
+    return await api.get<Disciplina[]>('/listarTodasDisciplinas');
+}
+
+export const salvarDisciplina = async (data : Omit<Disciplina, 'codigo'>) => {
+    return await api.post('/salvarDisciplina', data)
+}
+
+export const alterarDisciplina = async (codigo: string, data: Omit<Disciplina, 'codigo'>) => {
+    return await api.put(`/alterarDisciplina/${codigo}`, data)
+}
+
+export const deletarDisciplina = async (codigo: string) => {
+    return await api.delete(`/deletarDisciplina/${codigo}`);
+}
+

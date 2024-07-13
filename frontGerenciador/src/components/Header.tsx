@@ -16,6 +16,7 @@ const Header: React.FC = () => {
                 <HStack spacing={4} align='flex-end'>
                     <Link to="/">Home</Link>
                     <Link to="/ies">IES</Link>
+                    <Link to="/disciplina">Disciplinas</Link>
                 </HStack>
 
             </Flex>
