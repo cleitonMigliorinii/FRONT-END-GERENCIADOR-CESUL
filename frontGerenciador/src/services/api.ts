@@ -2,7 +2,7 @@ import axios from "axios";
 import { Ies } from "../models/Ies";
 
 const api = axios.create({
-    baseURL: 'http://192.168.30.105:3333'
+    baseURL: 'http://localhost:3333'
 })
 
 export const listarTodasIes = async () => {

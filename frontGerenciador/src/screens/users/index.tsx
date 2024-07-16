@@ -1,0 +1,110 @@
+import { Box, Button, ButtonGroup, Flex, Heading, List, ListItem, Text, useDisclosure } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Usuario } from "../../models/Usuarios";
+import { Turma } from "../../models/Turma";
+import { deletarUsuario, listarTodosUsuarios } from "../../services/apiUsers";
+import UsuarioForm from "./modal/UsersForm";
+
+import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
+
+const UsuarioInterface: React.FC = () => {
+
+    const [UsuarioList, setUsuarioList] = useState<Usuario[]>([])
+    const [UsuarioAtual, setUsuarioAtual] = useState<Usuario | null>(null)
+    const [TurmaAtual, setTurmaAtual] = useState<Turma | null>(null)
+    const {isOpen, onOpen, onClose} = useDisclosure();
+
+
+    useEffect(() =>{
+
+        const fetchData = async () => {
+            const response = await listarTodosUsuarios();
+            setUsuarioList(response.data)
+        }
+
+        fetchData();
+
+    }, [])
+
+
+    const handleAdd = () =>{
+        setUsuarioAtual(null)
+        setTurmaAtual(null)
+        onOpen()
+    }
+
+    const handleDelete = async (RA: string)=>{
+        
+        try {
+
+            await deletarUsuario(RA)
+            setUsuarioList(UsuarioList.filter(Usuario => Usuario.RA != RA))
+
+            alert("Excluido com sucesso !")
+
+        } catch (error) {
+            alert("IES Possui ligação com outro tabela, não pode excluir !")
+        }
+        
+    }
+
+    const handleCloseModal=()=>{
+        onClose()
+        setUsuarioAtual(null)
+    }
+
+    const handleEdit = (Usuario : Usuario) =>{
+        setUsuarioAtual(Usuario)
+        onOpen()
+    }
+
+    return (
+        <Box p={5} w='100%'>
+
+            <Flex justifyContent={"space-between"}>
+                <Heading mb={5}>
+                    Tela IES
+                </Heading>
+                <Button mb={5} colorScheme="blue"
+                onClick={handleAdd}
+                 leftIcon={<AddIcon />}   
+                >
+                    Cadastrar
+                </Button>
+            </Flex>
+
+            { isOpen && <UsuarioForm users={UsuarioAtual} turma={TurmaAtual} onClose={handleCloseModal} />}
+
+            <List spacing={3}>
+                { UsuarioList.map(Usuario => (
+                    <ListItem key={Usuario.RA} p={5} shadow='md' borderWidth='1px' borderRadius="md" 
+                            as={Flex} justifyContent='space-between'>
+
+                         <Box w={'40%'}>      
+                            <Text fontSize="xl">{Usuario.RA}</Text>
+                            <Text>CNPJ : {Usuario.nomeUsuario}</Text>
+                        </Box> 
+
+                        <Box>
+                            <Text fontSize="xl">Data Cadastro </Text>
+                            <Text>{Usuario.dataAlteracaoUsuario?.getDate()}</Text>
+                        </Box>
+                        
+                        <ButtonGroup>
+                            <Button colorScheme="blue"  mr={2} leftIcon={<EditIcon/>}
+                                onClick={() => handleEdit(Usuario)}>Alterar</Button>
+                                
+                            <Button colorScheme="red"  leftIcon={<DeleteIcon/>}
+                            onClick={() =>  handleDelete(Usuario.RA)}>Deletar</Button>
+                        </ButtonGroup>
+                    </ListItem>
+                ))}
+            </List>
+
+
+        </Box>
+    )
+    
+}
+
+export default UsuarioInterface;
