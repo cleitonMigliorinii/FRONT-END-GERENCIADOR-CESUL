@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { Usuario } from "../../models/Usuarios";
 import { Turma } from "../../models/Turma";
 import { deletarUsuario, listarTodosUsuarios } from "../../services/apiUsers";
-import UsuarioForm from "./modal/UsersForm";
+import UsersForm from "./modal/UsersForm";
 
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
-const UsuarioInterface: React.FC = () => {
+const UsersInterface: React.FC = () => {
 
     const [UsuarioList, setUsuarioList] = useState<Usuario[]>([])
     const [UsuarioAtual, setUsuarioAtual] = useState<Usuario | null>(null)
@@ -63,7 +63,7 @@ const UsuarioInterface: React.FC = () => {
 
             <Flex justifyContent={"space-between"}>
                 <Heading mb={5}>
-                    Tela IES
+                    Lista de Usuários
                 </Heading>
                 <Button mb={5} colorScheme="blue"
                 onClick={handleAdd}
@@ -73,7 +73,7 @@ const UsuarioInterface: React.FC = () => {
                 </Button>
             </Flex>
 
-            { isOpen && <UsuarioForm users={UsuarioAtual} turma={TurmaAtual} onClose={handleCloseModal} />}
+            { isOpen && <UsersForm users={UsuarioAtual} turma={TurmaAtual} onClose={handleCloseModal} />}
 
             <List spacing={3}>
                 { UsuarioList.map(Usuario => (
@@ -107,4 +107,4 @@ const UsuarioInterface: React.FC = () => {
     
 }
 
-export default UsuarioInterface;
+export default UsersInterface;

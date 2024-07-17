@@ -1,6 +1,4 @@
 import { Turma } from "./Turma"
-import { NotasTarefas } from "./NotasTarefas"
-import { DisciplinaAluno } from "./DisciplinaAluno"
 
 export interface Usuario {
     RA: string;
@@ -11,7 +9,5 @@ export interface Usuario {
     tipoUsuario: string;
     situacaoUsuario: Boolean;
     dataAlteracaoUsuario?: Date;
-    notasTarefas: NotasTarefas[];
-    disciplinaAluno: DisciplinaAluno[];
-    turma: Turma
+    //turma: string
 }

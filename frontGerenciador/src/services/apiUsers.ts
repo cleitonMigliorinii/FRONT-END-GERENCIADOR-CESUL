@@ -6,7 +6,7 @@ const api = axios.create({
 })
 
 export const listarTodosUsuarios = async () => {
-    return await api.get<Usuario[]>('/listarTodasUsuario');
+    return await api.get<Usuario[]>('/listarTodosUsuario');
 }
 
 export const salvarUsuario = async (data : Omit<Usuario, 'codigo'>) => {
