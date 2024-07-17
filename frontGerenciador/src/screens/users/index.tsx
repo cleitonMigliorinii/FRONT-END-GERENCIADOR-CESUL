@@ -2,24 +2,30 @@ import { Box, Button, ButtonGroup, Flex, Heading, List, ListItem, Text, useDiscl
 import { useEffect, useState } from "react";
 import { Usuario } from "../../models/Usuarios";
 import { Turma } from "../../models/Turma";
-import { deletarUsuario, listarTodosUsuarios } from "../../services/apiUsers";
+import { deletarUsuario, listarTodasTurma, listarTodosUsuarios } from "../../services/apiUsers";
 import UsuarioForm from "./modal/UsersForm";
 
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
 const UsuarioInterface: React.FC = () => {
 
-    const [UsuarioList, setUsuarioList] = useState<Usuario[]>([])
-    const [UsuarioAtual, setUsuarioAtual] = useState<Usuario | null>(null)
-    const [TurmaAtual, setTurmaAtual] = useState<Turma | null>(null)
+    const [usuarioList, setUsuarioList] = useState<Usuario[]>([]);
+    const [turmaList, setTurmaList] = useState<Turma[]>([]);
+    const [UsuarioAtual, setUsuarioAtual] = useState<Usuario | null>(null);
+    const [TurmaAtual, setTurmaAtual] = useState<Turma | null>(null);
     const {isOpen, onOpen, onClose} = useDisclosure();
 
 
     useEffect(() =>{
 
         const fetchData = async () => {
-            const response = await listarTodosUsuarios();
-            setUsuarioList(response.data)
+            const responseUser = await listarTodosUsuarios();
+            const responseTurma = await listarTodasTurma();
+            setUsuarioList(responseUser.data)
+            setTurmaList(responseTurma.data)
+
+            console.log(responseUser.data)
+            console.log(responseTurma.data)
         }
 
         fetchData();
@@ -38,7 +44,7 @@ const UsuarioInterface: React.FC = () => {
         try {
 
             await deletarUsuario(RA)
-            setUsuarioList(UsuarioList.filter(Usuario => Usuario.RA != RA))
+            setUsuarioList(usuarioList.filter(Usuario => Usuario.RA != RA))
 
             alert("Excluido com sucesso !")
 
@@ -73,10 +79,10 @@ const UsuarioInterface: React.FC = () => {
                 </Button>
             </Flex>
 
-            { isOpen && <UsuarioForm users={UsuarioAtual} turma={TurmaAtual} onClose={handleCloseModal} />}
+            { isOpen && <UsuarioForm users={UsuarioAtual} onClose={handleCloseModal} />}
 
             <List spacing={3}>
-                { UsuarioList.map(Usuario => (
+                { usuarioList.map(Usuario => (
                     <ListItem key={Usuario.RA} p={5} shadow='md' borderWidth='1px' borderRadius="md" 
                             as={Flex} justifyContent='space-between'>
 

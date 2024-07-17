@@ -16,6 +16,7 @@ function App() {
 
            <Routes>
               <Route path='/ies' element={<IesInterface/>}/>
+              <Route path='/users' element={<IesInterface/>}/>
            </Routes>
 
       </Flex>

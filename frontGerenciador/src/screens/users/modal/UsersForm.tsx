@@ -6,11 +6,10 @@ import { alterarUsuario, salvarUsuario } from "../../../services/apiUsers";
 
 interface UsuarioFormProps {
     users: Usuario | null;
-    turma: Turma;
     onClose: () => void
 }
 
-const UsuarioForm: React.FC<UsuarioFormProps> = ({users, turma, onClose}) => {
+const UsuarioForm: React.FC<UsuarioFormProps> = ({users, onClose}) => {
 
     const [formData, setFormData] = useState<Usuario>({
         RA : '',
@@ -20,8 +19,6 @@ const UsuarioForm: React.FC<UsuarioFormProps> = ({users, turma, onClose}) => {
         telefoneUsuario : '',
         tipoUsuario : '',
         situacaoUsuario : true,
-        disciplinaAluno : [],
-        notasTarefas : [],
         turma : turma,
         
     })
@@ -36,8 +33,6 @@ const UsuarioForm: React.FC<UsuarioFormProps> = ({users, turma, onClose}) => {
                 telefoneUsuario : users.telefoneUsuario,
                 tipoUsuario : users.tipoUsuario,
                 situacaoUsuario: users.situacaoUsuario,
-                disciplinaAluno: users.disciplinaAluno,
-                notasTarefas: users.notasTarefas,
                 turma: users.turma
             })
         }
