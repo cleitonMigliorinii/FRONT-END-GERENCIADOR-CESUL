@@ -1,12 +1,13 @@
 import axios from "axios";
 import { Usuario } from "../models/Usuarios";
+import { Turma } from "../models/Turma";
 
 const api = axios.create({
     baseURL: 'http://localhost:3333'
 })
 
 export const listarTodosUsuarios = async () => {
-    return await api.get<Usuario[]>('/listarTodosUsuario');
+    return await api.get<Usuario[]>('/list/users');
 }
 
 export const salvarUsuario = async (data : Omit<Usuario, 'codigo'>) => {
@@ -23,4 +24,8 @@ export const deletarUsuario = async (codigo: string) => {
 
 export const buscarUsuarioRA = async (ra: string) => {
     return await api.get<Usuario>(`/buscarUsuario/${ra}`)
+}
+
+export const listarTodasTurma = async () => {
+    return await api.get<Turma[]>('/buscarTurma');
 }

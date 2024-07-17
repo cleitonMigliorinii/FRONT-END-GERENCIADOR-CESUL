@@ -2,8 +2,7 @@ import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButt
 import { Usuario } from "../../../models/Usuarios"
 import { Turma } from "../../../models/Turma";
 import { useEffect, useState } from "react";
-import { alterarUsuario, salvarUsuario } from "../../../services/apiUsers";
-import { listarTodasTurmas } from "../../../services/apiTurma";
+import { alterarUsuario, listarTodasTurma, salvarUsuario } from "../../../services/apiUsers";
 
 interface UsersFormProps {
     users: Usuario | null;
@@ -27,7 +26,7 @@ const UsersForm: React.FC<UsersFormProps> = ({ users, turma, onClose }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await listarTodasTurmas();
+            const response = await listarTodasTurma();
             setTurmaList(response.data);
         };
         fetchData();

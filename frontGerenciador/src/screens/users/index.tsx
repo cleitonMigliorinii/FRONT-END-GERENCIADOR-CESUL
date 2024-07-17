@@ -87,7 +87,7 @@ const UsersInterface: React.FC = () => {
 
                         <Box>
                             <Text fontSize="xl">Data Cadastro </Text>
-                            <Text>{Usuario.dataAlteracaoUsuario?.getDate()}</Text>
+                            <Text>{Usuario.dataAlteracaoUsuario?.toString()}</Text>
                         </Box>
                         
                         <ButtonGroup>
