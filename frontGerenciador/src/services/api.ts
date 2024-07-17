@@ -33,3 +33,11 @@ export const salvarTarefa = async (data : Omit<Tarefa, 'codigo'>) => {
 export const alterarTarefa = async (codigo: string, data: Omit<Tarefa, 'codigo'>) => {
     return await api.put(`/tarefas/${codigo}`, data)
 }
+
+export const listarTodasTarefas = async () => {
+    return await api.get<Tarefa[]>('/tarefas');
+}
+
+export const deletarTarefa = async (codigo : string) => {
+    return await api.delete(`/tarefas/${codigo}`)
+}

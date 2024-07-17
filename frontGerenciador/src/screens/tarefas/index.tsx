@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { Tarefa } from "../../models/Tarefa";
 import TarefaForm from "./modal/TarefaForm";
+import { deletarTarefa, listarTodasTarefas } from "../../services/api";
 
 
 const TarefaInterface: React.FC = () => {
@@ -78,13 +79,17 @@ const TarefaInterface: React.FC = () => {
                         as={Flex} justifyContent='space-between'>
 
                         <Box w={'40%'}>
-                            <Text fontSize="xl">{tarefa.nome}</Text>
-                            <Text>CNPJ : {tarefa.cnpj}</Text>
+                            <Text fontSize="xl">{tarefa.disciplina}</Text>
+                            <Text>Descrição : {tarefa.descricao}</Text>
                         </Box>
 
                         <Box>
                             <Text fontSize="xl">Data Cadastro </Text>
-                            <Text>{tarefa.dataCriacao.toLocaleString()}</Text>
+                            <Text>{tarefa.data_registro.toLocaleString()}</Text>
+                        </Box>
+                        <Box>
+                            <Text fontSize="xl"> Situação</Text>
+                            <Text>{tarefa.situacao}</Text>
                         </Box>
 
                         <ButtonGroup>

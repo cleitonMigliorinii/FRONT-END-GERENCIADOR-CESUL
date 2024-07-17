@@ -25,7 +25,9 @@ const TarefaForm: React.FC<TarefaFormProps> = ({ tarefa, onClose }) => {
                 disciplinaId: tarefa.disciplinaId,
                 situacao: tarefa.situacao,
                 descricao: tarefa.descricao,
-                data_prevista: tarefa.data_prevista,
+                data_prevista: tarefa.data_prevista instanceof Date 
+                ? tarefa.data_prevista 
+                : new Date(tarefa.data_prevista),
                 data_registro: new Date(tarefa.data_registro)
             });
         }
