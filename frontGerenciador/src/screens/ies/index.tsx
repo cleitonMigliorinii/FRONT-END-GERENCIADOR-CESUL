@@ -1,9 +1,8 @@
-import { Box, Button, ButtonGroup, Flex, Heading, List, ListItem, Text, Tr, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, Heading, List, ListItem, Text, useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Ies } from "../../models/Ies";
 import { deletarIes, listarTodasIes } from "../../services/api";
 import IesForm from "./modal/IesForm";
-
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
 const IesInterface: React.FC = () => {
@@ -13,7 +12,7 @@ const IesInterface: React.FC = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
 
 
-    useEffect(() =>{
+    useEffect(() =>{ 
 
         const fetchData = async () => {
             const response = await listarTodasIes();
@@ -22,7 +21,7 @@ const IesInterface: React.FC = () => {
 
         fetchData();
 
-    }, [])
+    }, []) 
 
 
     const handleAdd = () =>{

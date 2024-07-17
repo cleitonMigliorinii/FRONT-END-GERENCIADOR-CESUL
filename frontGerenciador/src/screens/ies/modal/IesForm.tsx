@@ -5,7 +5,7 @@ import { alterarIes, salvarIes } from "../../../services/api";
 
 interface IesFormProps {
     ies: Ies | null;
-    onClose: () => void
+    onClose: () => void 
 }
 
 const IesForm: React.FC<IesFormProps> = ({ies, onClose}) => {
