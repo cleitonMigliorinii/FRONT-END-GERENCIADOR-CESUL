@@ -1,7 +1,7 @@
-import { Box, Button, ButtonGroup, Flex, Heading, List, ListItem, Text, useDisclosure } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, ButtonGroup, Flex, Heading, List, ListItem, Text, useDisclosure } from "@chakra-ui/react";
+import { useEffect, useRef, useState } from "react";
 import { Usuario } from "../../models/Usuarios";
-import { Turma } from "../../models/Turma";
+//import { Turma } from "../../models/Turma";
 import { deletarUsuario, listarTodosUsuarios } from "../../services/apiUsers";
 import UsersForm from "./modal/UsersForm";
 
@@ -9,44 +9,47 @@ import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
 const UsersInterface: React.FC = () => {
 
-    const [usuarioList, setUsuarioList] = useState<Usuario[]>([]);
-    const [UsuarioAtual, setUsuarioAtual] = useState<Usuario | null>(null);
-    const {isOpen, onOpen, onClose} = useDisclosure();
+    const [UsuarioList, setUsuarioList] = useState<Usuario[]>([])
+    const [UsuarioAtual, setUsuarioAtual] = useState<Usuario | null>(null)
+    //const [TurmaAtual, setTurmaAtual] = useState<Turma | null>(null)
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
+    const { isOpen: isAlertOpen, onOpen: onAlertOpen, onClose: onAlertClose } = useDisclosure();
+    const cancelRef = useRef<HTMLButtonElement>(null);
+    const [RAParaExcluir, setRAParaExcluir] = useState<string | null>(null);
 
-    useEffect(() =>{
+    useEffect(() => {
 
         const fetchData = async () => {
-            const responseUser = await listarTodosUsuarios();
-            setUsuarioList(responseUser.data)
-
-            console.log(responseUser.data)
+            const response = await listarTodosUsuarios();
+            setUsuarioList(response.data)
         }
 
         fetchData();
 
     }, [])
 
-
     const handleAdd = () =>{
         setUsuarioAtual(null)
         onOpen()
     }
 
-    const handleDelete = async (RA: string)=>{
-        
-        try {
-
-            await deletarUsuario(RA)
-            setUsuarioList(usuarioList.filter(Usuario => Usuario.RA != RA))
-
-            alert("Excluido com sucesso !")
-
-        } catch (error) {
-            alert("Usuário possui ligação com outra tabela e não pode ser excluido!")
+    const handleDelete = async () => {
+        if (RAParaExcluir) {
+            try {
+                await deletarUsuario(RAParaExcluir)
+                setUsuarioList(UsuarioList.filter(Usuario => Usuario.RA !== RAParaExcluir))
+                onAlertClose();
+            } catch (error) {
+                alert("Usuário possui ligação com outra tabela e não pode ser excluido!")
+            }
         }
-        
-    }
+    };
+
+    const handleDeleteClick = (RA: string) => {
+        setRAParaExcluir(RA);
+        onAlertOpen();
+    };
 
     const handleCloseModal=()=>{
         onClose()
@@ -76,7 +79,7 @@ const UsersInterface: React.FC = () => {
             { isOpen && <UsersForm users={UsuarioAtual} onClose={handleCloseModal} />}
 
             <List spacing={3}>
-                { usuarioList.map(Usuario => (
+                {UsuarioList.map(Usuario => (
                     <ListItem key={Usuario.RA} p={5} shadow='md' borderWidth='1px' borderRadius="md" 
                             as={Flex} justifyContent='space-between'>
 
@@ -95,11 +98,37 @@ const UsersInterface: React.FC = () => {
                                 onClick={() => handleEdit(Usuario)}>Alterar</Button>
                                 
                             <Button colorScheme="red"  leftIcon={<DeleteIcon/>}
-                            onClick={() =>  handleDelete(Usuario.RA)}>Deletar</Button>
+                            onClick={() =>  handleDeleteClick(Usuario.RA)}>Deletar</Button>
                         </ButtonGroup>
                     </ListItem>
                 ))}
             </List>
+
+            <AlertDialog
+                isOpen={isAlertOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onAlertClose}
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent>
+                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Deletar Usuário
+                        </AlertDialogHeader>
+                        <AlertDialogBody>
+                            Você tem certeza? Você não poderá reverter isso!
+                        </AlertDialogBody>
+                        <AlertDialogFooter justifyContent="center">
+                            <Button ref={cancelRef} onClick={onAlertClose}>
+                                Não
+                            </Button>
+                            <Button colorScheme="red" onClick={handleDelete} ml={3}>
+                                Sim
+                            </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
+
 
 
         </Box>
