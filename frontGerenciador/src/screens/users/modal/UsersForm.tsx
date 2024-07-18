@@ -75,38 +75,45 @@ const UsersForm: React.FC<UsersFormProps> = ({ users, turma, onClose }) => {
     return (
         <Modal isOpen={true} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent mt={5}>
                 <ModalHeader>{users ? 'ALTERAR USUÁRIO' : 'CADASTRAR USUÁRIO'}</ModalHeader>
                 <ModalCloseButton />
                 <form onSubmit={handleSubmit}>
                     <ModalBody>
-                        <FormControl id="ra" mb={5}>
-                            <FormLabel>RA</FormLabel>
+                        <FormControl id="ra" mb={2}>
+                            <FormLabel mb={0} ms={1}>RA</FormLabel>
                             <Input type="text" name="RA" value={formData.RA} onChange={handleChangeText} required />
                         </FormControl>
-                        <FormControl id="nomeUsuario" mb={5}>
-                            <FormLabel>NOME COMPLETO</FormLabel>
+                        <FormControl id="nomeUsuario" mb={2}>
+                            <FormLabel mb={0} ms={1}>NOME COMPLETO</FormLabel>
                             <Input type="text" name="nomeUsuario" value={formData.nomeUsuario} onChange={handleChangeText} required />
                         </FormControl>
-                        <FormControl id="emailUsuario" mb={5}>
-                            <FormLabel>E-MAIL</FormLabel>
+                        <FormControl id="emailUsuario" mb={2}>
+                            <FormLabel mb={0} ms={1}>E-MAIL</FormLabel>
                             <Input type="email" name="emailUsuario" value={formData.emailUsuario} onChange={handleChangeText} required />
                         </FormControl>
-                        <FormControl id="telefoneUsuario" mb={5}>
-                            <FormLabel>TELEFONE</FormLabel>
+                        <FormControl id="telefoneUsuario" mb={2}>
+                            <FormLabel mb={0} ms={1}>TELEFONE</FormLabel>
                             <Input type="text" name="telefoneUsuario" value={formData.telefoneUsuario} onChange={handleChangeText} required />
                         </FormControl>
-                        <FormControl id="turma" mb={5}>
-                            <FormLabel>Turma</FormLabel>
-                            <Select name="turma" value={formData.turma} onChange={handleChangeSelect} placeholder='Selecione uma opção'>
+                        <FormControl id="turma" mb={2}>
+                            <FormLabel mb={0} ms={1}>TURMA</FormLabel>
+                            <Select name="turma" value={formData.turma} onChange={handleChangeSelect} placeholder='Selecione uma opção' required>
                                 {turmaList.map((turma) => (
-                                    <option key={turma.id} value={turma.nome}>{turma.nome}</option>
+                                    <option key={turma.id} value={turma.codigo}>{turma.nome}</option>
                                 ))}
                             </Select>
                         </FormControl>
-                        <FormControl id="tipoUsuario" mb={5}>
-                            <FormLabel>TIPO</FormLabel>
-                            <Input type="text" name="tipoUsuario" value={formData.tipoUsuario} onChange={handleChangeText} required />
+                        <FormControl id="tipoUsuario" mb={2}>
+                            <FormLabel mb={0} ms={1}>TIPO DE USUÁRIO</FormLabel>
+                            <Select name="tipoUsuario" value={formData.tipoUsuario} onChange={handleChangeSelect} placeholder='Selecione uma opção' required>
+                                <option>Aluno</option>
+                                <option>Professor</option>
+                            </Select>
+                        </FormControl>
+                        <FormControl id="senhaUsuario" mb={2}>
+                            <FormLabel mb={0} ms={1}>SENHA</FormLabel>
+                            <Input type="text" name="senhaUsuario" value={formData.senhaUsuario} onChange={handleChangeText} required />
                         </FormControl>
                     </ModalBody>
                     <ModalFooter>

@@ -43,7 +43,7 @@ const UsersInterface: React.FC = () => {
             alert("Excluido com sucesso !")
 
         } catch (error) {
-            alert("IES Possui ligação com outro tabela, não pode excluir !")
+            alert("Usuário possui ligação com outra tabela e não pode ser excluido!")
         }
         
     }

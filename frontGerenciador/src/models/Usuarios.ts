@@ -9,5 +9,5 @@ export interface Usuario {
     tipoUsuario: string;
     situacaoUsuario: Boolean;
     dataAlteracaoUsuario?: Date;
-    //turma: string
+    //turma: string;
 }
