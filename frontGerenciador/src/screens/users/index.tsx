@@ -2,12 +2,12 @@ import { Box, Button, ButtonGroup, Flex, Heading, List, ListItem, Text, useDiscl
 import { useEffect, useState } from "react";
 import { Usuario } from "../../models/Usuarios";
 import { Turma } from "../../models/Turma";
-import { deletarUsuario, listarTodasTurma, listarTodosUsuarios } from "../../services/apiUsers";
-import UsuarioForm from "./modal/UsersForm";
+import { deletarUsuario, listarTodosUsuarios } from "../../services/apiUsers";
+import UsersForm from "./modal/UsersForm";
 
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
-const UsuarioInterface: React.FC = () => {
+const UsersInterface: React.FC = () => {
 
     const [usuarioList, setUsuarioList] = useState<Usuario[]>([]);
     const [turmaList, setTurmaList] = useState<Turma[]>([]);
@@ -49,7 +49,7 @@ const UsuarioInterface: React.FC = () => {
             alert("Excluido com sucesso !")
 
         } catch (error) {
-            alert("IES Possui ligação com outro tabela, não pode excluir !")
+            alert("Usuário possui ligação com outra tabela e não pode ser excluido!")
         }
         
     }
@@ -69,7 +69,7 @@ const UsuarioInterface: React.FC = () => {
 
             <Flex justifyContent={"space-between"}>
                 <Heading mb={5}>
-                    Tela IES
+                    Lista de Usuários
                 </Heading>
                 <Button mb={5} colorScheme="blue"
                 onClick={handleAdd}
@@ -79,7 +79,7 @@ const UsuarioInterface: React.FC = () => {
                 </Button>
             </Flex>
 
-            { isOpen && <UsuarioForm users={UsuarioAtual} onClose={handleCloseModal} />}
+            { isOpen && <UsersForm users={UsuarioAtual} turma={TurmaAtual} onClose={handleCloseModal} />}
 
             <List spacing={3}>
                 { usuarioList.map(Usuario => (
@@ -93,7 +93,7 @@ const UsuarioInterface: React.FC = () => {
 
                         <Box>
                             <Text fontSize="xl">Data Cadastro </Text>
-                            <Text>{Usuario.dataAlteracaoUsuario?.getDate()}</Text>
+                            <Text>{Usuario.dataAlteracaoUsuario?.toString()}</Text>
                         </Box>
                         
                         <ButtonGroup>
@@ -113,4 +113,4 @@ const UsuarioInterface: React.FC = () => {
     
 }
 
-export default UsuarioInterface;
+export default UsersInterface;

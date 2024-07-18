@@ -1,5 +1,3 @@
-import { Turma } from "./Turma"
-
 export interface Usuario {
     RA: string;
     nomeUsuario: string;
@@ -9,5 +7,5 @@ export interface Usuario {
     tipoUsuario: string;
     situacaoUsuario: Boolean;
     dataAlteracaoUsuario?: Date;
-    turma: Turma
+    turmaCodigo: string;
 }
