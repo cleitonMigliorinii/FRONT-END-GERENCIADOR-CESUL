@@ -9,17 +9,23 @@ import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
 const UsersInterface: React.FC = () => {
 
-    const [UsuarioList, setUsuarioList] = useState<Usuario[]>([])
-    const [UsuarioAtual, setUsuarioAtual] = useState<Usuario | null>(null)
-    const [TurmaAtual, setTurmaAtual] = useState<Turma | null>(null)
+    const [usuarioList, setUsuarioList] = useState<Usuario[]>([]);
+    const [turmaList, setTurmaList] = useState<Turma[]>([]);
+    const [UsuarioAtual, setUsuarioAtual] = useState<Usuario | null>(null);
+    const [TurmaAtual, setTurmaAtual] = useState<Turma | null>(null);
     const {isOpen, onOpen, onClose} = useDisclosure();
 
 
     useEffect(() =>{
 
         const fetchData = async () => {
-            const response = await listarTodosUsuarios();
-            setUsuarioList(response.data)
+            const responseUser = await listarTodosUsuarios();
+            const responseTurma = await listarTodasTurma();
+            setUsuarioList(responseUser.data)
+            setTurmaList(responseTurma.data)
+
+            console.log(responseUser.data)
+            console.log(responseTurma.data)
         }
 
         fetchData();
@@ -38,7 +44,7 @@ const UsersInterface: React.FC = () => {
         try {
 
             await deletarUsuario(RA)
-            setUsuarioList(UsuarioList.filter(Usuario => Usuario.RA != RA))
+            setUsuarioList(usuarioList.filter(Usuario => Usuario.RA != RA))
 
             alert("Excluido com sucesso !")
 
@@ -76,7 +82,7 @@ const UsersInterface: React.FC = () => {
             { isOpen && <UsersForm users={UsuarioAtual} turma={TurmaAtual} onClose={handleCloseModal} />}
 
             <List spacing={3}>
-                { UsuarioList.map(Usuario => (
+                { usuarioList.map(Usuario => (
                     <ListItem key={Usuario.RA} p={5} shadow='md' borderWidth='1px' borderRadius="md" 
                             as={Flex} justifyContent='space-between'>
 
