@@ -6,11 +6,10 @@ import { alterarUsuario, listarTodasTurma, salvarUsuario } from "../../../servic
 
 interface UsersFormProps {
     users: Usuario | null;
-    turma: Turma;
     onClose: () => void
 }
 
-const UsersForm: React.FC<UsersFormProps> = ({ users, turma, onClose }) => {
+const UsersForm: React.FC<UsersFormProps> = ({ users, onClose }) => {
     const [turmaList, setTurmaList] = useState<Turma[]>([]);
 
     const [formData, setFormData] = useState<Usuario>({
@@ -21,18 +20,17 @@ const UsersForm: React.FC<UsersFormProps> = ({ users, turma, onClose }) => {
         telefoneUsuario: '',
         tipoUsuario: '',
         situacaoUsuario: true,
-        //turma: turma.nome,
+        turmaCodigo: '',
     });
 
     useEffect(() => {
+
         const fetchData = async () => {
             const response = await listarTodasTurma();
             setTurmaList(response.data);
         };
         fetchData();
-    }, []);
 
-    useEffect(() => {
         if (users) {
             setFormData({
                 RA: users.RA,
@@ -42,7 +40,7 @@ const UsersForm: React.FC<UsersFormProps> = ({ users, turma, onClose }) => {
                 telefoneUsuario: users.telefoneUsuario,
                 tipoUsuario: users.tipoUsuario,
                 situacaoUsuario: users.situacaoUsuario,
-                //turma: users.turma,
+                turmaCodigo: users.turmaCodigo,
             });
         }
     }, [users]);
@@ -54,12 +52,20 @@ const UsersForm: React.FC<UsersFormProps> = ({ users, turma, onClose }) => {
 
     const handleChangeSelect = (ev: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = ev.target;
-        setFormData({ ...formData, [name]: value });
+
+        if (name === "turma"){
+            setFormData({ ...formData, ["turmaCodigo"]: value });
+        
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
+        
     };
 
     const handleSubmit = async (ev: React.FormEvent) => {
         ev.preventDefault();
         try {
+            console.log(formData)
             if (users) {
                 await alterarUsuario(users.RA, formData);
             } else {
@@ -98,9 +104,9 @@ const UsersForm: React.FC<UsersFormProps> = ({ users, turma, onClose }) => {
                         </FormControl>
                         <FormControl id="turma" mb={2}>
                             <FormLabel mb={0} ms={1}>TURMA</FormLabel>
-                            <Select name="turma" value={formData.turma} onChange={handleChangeSelect} placeholder='Selecione uma opção' required>
+                            <Select name="turma" value={formData.turmaCodigo} onChange={handleChangeSelect} placeholder='Selecione uma opção' required>
                                 {turmaList.map((turma) => (
-                                    <option key={turma.id} value={turma.codigo}>{turma.nome}</option>
+                                    <option key={turma.codigo} value={turma.codigo}>{turma.nome}</option>
                                 ))}
                             </Select>
                         </FormControl>
