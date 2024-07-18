@@ -10,9 +10,7 @@ import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 const UsersInterface: React.FC = () => {
 
     const [usuarioList, setUsuarioList] = useState<Usuario[]>([]);
-    const [turmaList, setTurmaList] = useState<Turma[]>([]);
     const [UsuarioAtual, setUsuarioAtual] = useState<Usuario | null>(null);
-    const [TurmaAtual, setTurmaAtual] = useState<Turma | null>(null);
     const {isOpen, onOpen, onClose} = useDisclosure();
 
 
@@ -20,12 +18,9 @@ const UsersInterface: React.FC = () => {
 
         const fetchData = async () => {
             const responseUser = await listarTodosUsuarios();
-            const responseTurma = await listarTodasTurma();
             setUsuarioList(responseUser.data)
-            setTurmaList(responseTurma.data)
 
             console.log(responseUser.data)
-            console.log(responseTurma.data)
         }
 
         fetchData();
@@ -35,7 +30,6 @@ const UsersInterface: React.FC = () => {
 
     const handleAdd = () =>{
         setUsuarioAtual(null)
-        setTurmaAtual(null)
         onOpen()
     }
 
@@ -79,7 +73,7 @@ const UsersInterface: React.FC = () => {
                 </Button>
             </Flex>
 
-            { isOpen && <UsersForm users={UsuarioAtual} turma={TurmaAtual} onClose={handleCloseModal} />}
+            { isOpen && <UsersForm users={UsuarioAtual} onClose={handleCloseModal} />}
 
             <List spacing={3}>
                 { usuarioList.map(Usuario => (
